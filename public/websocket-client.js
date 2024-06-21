@@ -14,6 +14,10 @@ document.addEventListener('DOMContentLoaded', () => {
     socket.on('msgToClient', (message, clientId) => {
       addMessageToDOM(`Cliente ${clientId}: ${message}`);
     });
+
+    socket.on('updatedBook', (book) => {
+      addBookToDOM(book)
+    })
   
     document.getElementById('sendButton').addEventListener('click', () => {
       const messageInput = document.getElementById('messageInput');
@@ -27,5 +31,12 @@ document.addEventListener('DOMContentLoaded', () => {
       const messageElement = document.createElement('li');
       messageElement.textContent = message;
       messages.appendChild(messageElement);
+    }
+
+    function addBookToDOM(book) {
+      const books = document.getElementById('books');
+      const booksElement = document.createElement('li');
+      booksElement.textContent = `updated Book: ${book.nome}`;
+      books.appendChild(booksElement);
     }
   });

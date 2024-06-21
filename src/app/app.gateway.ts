@@ -9,6 +9,7 @@ import {
 } from '@nestjs/websockets';
 import { Server, Socket } from 'socket.io';
 
+
 @WebSocketGateway({
   cors: {
     origin: '*',
@@ -26,6 +27,10 @@ export class AppGateway
     const messageData = { message: payload, clientId: client.id };
     this.messages.push(messageData)
     this.server.emit('msgToClient', payload, client.id);
+  }
+
+  handleBook(curso: any) {
+    this.server.emit('updatedBook', curso);
   }
 
   afterInit(server: Server) {

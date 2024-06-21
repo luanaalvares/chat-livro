@@ -1,17 +1,17 @@
 import { Module, NestModule, MiddlewareConsumer, RequestMethod } from '@nestjs/common';
-import { CourseMiddleware } from './cursos/cursos.middleware';
-import { CursoModule } from './cursos/cursos.module';
+import { CourseMiddleware } from './books/book.middleware';
+import { BookModule } from './books/book.module';
 import { MongooseModule } from '@nestjs/mongoose';
-import { AppGateway } from './app/app.gateway';
+import { SharedModule } from './shared.module';
 
 @Module({
-  imports: [MongooseModule.forRoot('mongodb://localhost/27017'), CursoModule],
-  providers: [AppGateway]
+  imports: [SharedModule, MongooseModule.forRoot('mongodb://localhost/nest'), BookModule],
+  providers: []
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
     consumer
       .apply(CourseMiddleware)
-      .forRoutes({ path: 'curso', method: RequestMethod.POST });
+      .forRoutes({ path: 'books', method: RequestMethod.POST });
 }
 }
